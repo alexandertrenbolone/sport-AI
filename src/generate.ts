@@ -140,10 +140,10 @@ export async function generateContent(data: MatchData): Promise<ContentPackage> 
 
   // Validate that team names appear in output (hallucination check)
   if (!preview.includes(data.homeTeam) || !preview.includes(data.awayTeam)) {
-    flags.push(`WARNING: Team name(s) missing in preview — possible hallucination (expected "${data.homeTeam}" and "${data.awayTeam}")`);
+    flags.push(`ВНИМАНИЕ: в превью отсутствует название команды — возможная галлюцинация (ожидались "${data.homeTeam}" и "${data.awayTeam}")`);
   }
   if (!forecast.includes(data.homeTeam) || !forecast.includes(data.awayTeam)) {
-    flags.push(`WARNING: Team name(s) missing in forecast — possible hallucination (expected "${data.homeTeam}" and "${data.awayTeam}")`);
+    flags.push(`ВНИМАНИЕ: в прогнозе отсутствует название команды — возможная галлюцинация (ожидались "${data.homeTeam}" и "${data.awayTeam}")`);
   }
 
   const sources = [

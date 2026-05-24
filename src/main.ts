@@ -124,7 +124,7 @@ async function main(): Promise<void> {
   const recentHashes = loadHashes();
   if (recentHashes.includes(contentHash)) {
     console.warn('[main] ⚠️  Duplicate content detected — preview hash matches a recent output');
-    pkg.validationReport.flags.push('WARNING: Content hash matches a recently generated output — possible duplicate');
+    pkg.validationReport.flags.push('ВНИМАНИЕ: хэш совпадает с недавним выводом — возможный дубликат контента');
   }
   saveHash(contentHash);
 

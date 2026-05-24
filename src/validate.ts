@@ -7,22 +7,22 @@ export function validateMatchData(data: MatchData): ValidationReport {
 
   // Blocking error 1: team names empty
   if (!data.homeTeam || !data.awayTeam) {
-    errors.push('Team names are empty or missing');
+    errors.push('Названия команд отсутствуют или пустые');
   }
 
   // Blocking error 2 + Warning: match date checks
   if (data.date) {
     const matchDate = new Date(data.date);
     if (isNaN(matchDate.getTime())) {
-      errors.push('Match date is invalid or unparseable');
+      errors.push('Некорректная дата матча — не удалось разобрать');
     } else {
       const diffDays = (now.getTime() - matchDate.getTime()) / (1000 * 60 * 60 * 24);
       if (diffDays > 3) {
-        errors.push(`Match date ${data.date} is more than 3 days in the past`);
+        errors.push(`Дата матча ${data.date} более чем на 3 дня в прошлом`);
       }
       const futureDiffDays = (matchDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
       if (futureDiffDays > 30) {
-        flags.push('Match is more than 30 days in the future — data may be limited');
+        flags.push('Матч более чем через 30 дней — данных по форме может быть мало');
       }
     }
   }
@@ -31,36 +31,36 @@ export function validateMatchData(data: MatchData): ValidationReport {
   if (data.fetchedAt) {
     const fetchedAt = new Date(data.fetchedAt);
     if (isNaN(fetchedAt.getTime())) {
-      errors.push('fetchedAt timestamp is invalid');
+      errors.push('Некорректная метка времени fetchedAt');
     } else {
       const ageHours = (now.getTime() - fetchedAt.getTime()) / (1000 * 60 * 60);
       if (ageHours > 2) {
-        errors.push(`Data is stale: fetched ${ageHours.toFixed(1)}h ago (max 2h)`);
+        errors.push(`Данные устарели: получены ${ageHours.toFixed(1)}ч назад (лимит 2ч)`);
       }
     }
   }
 
   // Warning: form data incomplete
   if (data.homeForm.last5.length < 3) {
-    flags.push(`Limited form data for ${data.homeTeam}: only ${data.homeForm.last5.length} recent matches`);
+    flags.push(`Мало данных о форме ${data.homeTeam}: только ${data.homeForm.last5.length} последних матча`);
   }
   if (data.awayForm.last5.length < 3) {
-    flags.push(`Limited form data for ${data.awayTeam}: only ${data.awayForm.last5.length} recent matches`);
+    flags.push(`Мало данных о форме ${data.awayTeam}: только ${data.awayForm.last5.length} последних матча`);
   }
 
   // Warning: no H2H data
   if (data.h2h.length === 0) {
-    flags.push('No head-to-head data available — forecast will be based on form only');
+    flags.push('Нет данных об очных встречах — прогноз строится только по форме');
   }
 
   // Warning: unknown match time
   if (!data.time || data.time === '00:00') {
-    flags.push('Match time is unknown — may be TBC');
+    flags.push('Время матча неизвестно — уточните перед публикацией');
   }
 
   // Warning: unknown venue
   if (data.venue === 'Unknown Venue') {
-    flags.push('Venue is unknown — may look odd in generated content');
+    flags.push('Стадион не указан — может выглядеть странно в тексте');
   }
 
   return {
