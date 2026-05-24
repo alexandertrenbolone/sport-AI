@@ -1,0 +1,21 @@
+{
+  "name": "sport-ai",
+  "version": "1.0.0",
+  "description": "Sports content factory — AI pipeline for match previews, forecasts, SEO and Telegram posts",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "tsx src/main.ts",
+    "build": "tsc",
+    "dev": "tsx src/main.ts"
+  },
+  "dependencies": {
+    "axios": "^1.7.0",
+    "dotenv": "^16.4.0",
+    "openai": "^4.67.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
